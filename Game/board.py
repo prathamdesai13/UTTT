@@ -12,6 +12,16 @@ class Board:
         self.gx = -1
         self.gy = -1
 
+    def draw_board(self):
+        for i in range(3):
+            for j in range(3):
+                ttt = self.board.board[i][j]
+                if isinstance(ttt, Spot):
+                    print ttt.tttboard,
+                else:
+                    print(ttt)
+            print("\n\n")
+
     def change_player(self):
 
         self.player = not self.player
@@ -27,6 +37,7 @@ class Board:
     def set_global_coord(self, gx, gy):
     
         if self.is_global_coord_valid(gx, gy):
+            
             self.gx = gx
             self.gy = gy
 
