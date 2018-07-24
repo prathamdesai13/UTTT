@@ -34,7 +34,7 @@ class UltimateTicTacToe:
             print("Enter local coordinates for global spot {}, {}".format(self.board.gx, self.board.gy))
 
             spot = self.board.board[self.board.gx][self.board.gy]
-            
+
             x = input()
             y = input()
 
@@ -59,7 +59,7 @@ class UltimateTicTacToe:
                     
             self.board.change_player()   
 
-        self.board.
+        self.board.draw_board()
 
 if __name__ == '__main__':
 
