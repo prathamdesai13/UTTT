@@ -4,14 +4,10 @@ spot class
 
 class Spot:
 
-    def __init__(self, x, y):
+    def __init__(self):
         
         self.tttboard = [[0] * 3 for _ in range(3)]  # mini tic tac toe board
-
-    def draw_board(self):
         
-        for i in range(3):
-            print self.tttboard[i] 
         
     def make_move(self, x, y, piece):
         

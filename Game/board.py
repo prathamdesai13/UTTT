@@ -7,7 +7,7 @@ class Board:
 
     def __init__(self):
 
-        self.board = [[Spot(x, y) for y in range(3)] for x in range(3)]
+        self.board = [[Spot() for _ in range(3)] for _ in range(3)]
         self.player = True  # True for X, False for O
         self.gx = -1
         self.gy = -1

@@ -8,7 +8,7 @@ class UltimateTicTacToe:
         self.game_state = True
 
     def pvp(self):
-        
+        # assuming every move made is legal (really this is just meant for the ai)
         print("Enter global coordinates")
         gx = input()
         gy = input()
@@ -19,11 +19,12 @@ class UltimateTicTacToe:
             
             for i in range(3):
                 for j in range(3):
-                    if isinstance(self.board.board[i][j], Spot):
-                        self.board.board[i][j].draw_board()
+                    ttt = self.board.board[i][j]
+                    if isinstance(ttt, Spot):
+                        print ttt.tttboard,
                     else:
-                        print(self.board.board[i][j])
-                print("\n")
+                        print(ttt)
+                print("\n\n")
             while (self.board.gx == -1 and self.board.gy == -1):
                 
                 # ask to enter global coords again and check if they are valud
@@ -53,9 +54,6 @@ class UltimateTicTacToe:
                 print("Game is over!")
                     
             self.board.change_player()   
-
-            
-
 
 if __name__ == '__main__':
 
