@@ -1,17 +1,19 @@
-from Game import Board, Spot
+from Game.board import Board
+from Game.spot import Spot
+from Agents.RandomAgent import Randy
 
 class UltimateTicTacToe:
 
     def __init__(self):
 
-        self.board = Board()
+        self.Board = Board()
         self.game_state = True
 
     def global_input(self):
         
-        print("Player {} please enter global coordinates: ".format(1 if self.board.player else 2))
-        gx = input()
-        gy = input()
+        print("Player {} please enter global coordinates: ".format(1 if self.Board.player else 2))
+        gx = int(input())
+        gy = int(input())
 
         return gx, gy
 
@@ -19,31 +21,31 @@ class UltimateTicTacToe:
         # assuming every move made is legal (really this is just meant for the ai)
         gx, gy = self.global_input()
 
-        self.board.set_global_coord(gx, gy)
+        self.Board.set_global_coord(gx, gy)
 
         while self.game_state:
             
-            self.board.draw_board()
-            while (self.board.gx == -1 and self.board.gy == -1):
+            self.Board.draw_board()
+            while (self.Board.gx == -1 and self.Board.gy == -1):
                 
-                # ask to enter global coords again and check if they are valud
+                # ask to enter global coords again and check if they are valid
                 gx, gy = self.global_input()
 
-                self.board.set_global_coord(gx, gy)
+                self.Board.set_global_coord(gx, gy)
 
-            print("Enter local coordinates for global spot {}, {}".format(self.board.gx, self.board.gy))
+            print("Player {}, enter local coordinates for global spot {}, {}".format(1 if self.Board.player else 0,  self.Board.gx, self.Board.gy))
 
-            spot = self.board.board[self.board.gx][self.board.gy]
+            spot = self.Board.board[self.Board.gx][self.Board.gy]
 
-            x = input()
-            y = input()
+            x = int(input())
+            y = int(input())
 
-            spot.make_move(x, y, 'X' if self.board.player else 'O')
+            spot.make_move(x, y, 'X' if self.Board.player else 'O')
             
-            self.board.resolve_ttt_boards()
-            self.board.set_global_coord(x, y)
+            self.Board.resolve_ttt_boards()
+            self.Board.set_global_coord(x, y)
 
-            state = self.board.get_board_state()
+            state = self.Board.get_board_state()
 
             if state == 1 or state == -1:
                 
@@ -52,17 +54,63 @@ class UltimateTicTacToe:
                 print("Game is over!")
 
                 if state == 1:
-                    print("Player {} wins!".format(1 if self.board.player else 2))
+                    print("Player {} wins!".format(1 if self.Board.player else 2))
 
                 else:
                     print("Draw!")
                     
-            self.board.change_player()   
+            self.Board.change_player()   
 
-        self.board.draw_board()
+        self.Board.draw_board()
 
+    def pvc(self, agent):
+
+        gx, gy = self.global_input()
+        self.Board.set_global_coord(gx, gy)
+
+        while self.game_state:
+
+            self.Board.draw_board()
+            while(self.Board.gx == -1 and self.Board.gy == -1):
+                if self.Board.player: # human player
+                    gx, gy = self.global_input()
+                else: # not human player
+                    gx, gy = agent.make_global_move(self.Board)
+
+                self.Board.set_global_coord(gx, gy)
+
+            print("Player {}, enter local coordinates for global spot {}, {}".format(1 if self.Board.player else 0,  self.Board.gx, self.Board.gy))
+            spot = self.Board.board[self.Board.gx][self.Board.gy]
+
+            if self.Board.player: # if human player
+                x = int(input())
+                y = int(input())
+
+            else:
+                x, y = agent.make_local_move(spot)
+            
+            spot.make_move(x, y, 'X' if self.Board.player else 'O')
+
+            self.Board.resolve_ttt_boards()
+            self.Board.set_global_coord(x, y)
+
+            state = self.Board.get_board_state()
+
+            if state == 1 or state == -1:
+                self.game_state = False
+                print("Game is over!")
+
+                if state == 1:
+                    print("Player {} wins!".format(1 if self.Board.player else 2))
+
+                else:
+                    print("Draw!")
+            self.Board.change_player()   
+
+        self.Board.draw_board()
+        
 if __name__ == '__main__':
 
     UTTT = UltimateTicTacToe()
-
-    UTTT.pvp()
+    randy = Randy()
+    UTTT.pvc(randy)

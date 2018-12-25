@@ -1,7 +1,7 @@
 """
 board class for uttt
 """
-from spot import Spot
+from .spot import Spot
 
 class Board:
 
@@ -15,9 +15,13 @@ class Board:
     def draw_board(self):
         for i in range(3):
             for j in range(3):
-                ttt = self.board.board[i][j]
+                ttt = self.board[i][j]
                 if isinstance(ttt, Spot):
-                    print ttt.tttboard,
+                    print(ttt.tttboard, end='')
+                    # for index, item in enumerate(ttt.tttboard):
+                    #     print(item, end='')
+                    #     if not index % 3:
+                    #         print()
                 else:
                     print(ttt)
             print("\n\n")
