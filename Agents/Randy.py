@@ -6,8 +6,9 @@ class Randy:
 
         pass
 
-    def make_local_move(self, spot):
+    def make_local_move(self, board):
         # given the spot to be played in, generate random local move to play
+        spot = board.board[board.gx][board.gy]
         rand_int = random.randint(0, 8)
         y = rand_int % 3
         x = rand_int // 3
