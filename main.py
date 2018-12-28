@@ -1,6 +1,7 @@
 from Game.board import Board
 from Game.spot import Spot
-from Agents.RandomAgent import Randy
+from Agents.Randy import Randy
+from Agents.Nancy import Nancy
 
 class UltimateTicTacToe:
 
@@ -78,7 +79,7 @@ class UltimateTicTacToe:
                     gx, gy = agent.make_global_move(self.Board)
 
                 self.Board.set_global_coord(gx, gy)
-
+                print("Global Move perfomed by Player {} is : {}, {}".format(1 if self.Board.player else 0, self.Board.gx, self.Board.gy))
             print("Player {}, enter local coordinates for global spot {}, {}".format(1 if self.Board.player else 0,  self.Board.gx, self.Board.gy))
             spot = self.Board.board[self.Board.gx][self.Board.gy]
 
@@ -87,10 +88,11 @@ class UltimateTicTacToe:
                 y = int(input())
 
             else:
-                x, y = agent.make_local_move(spot)
+                x, y = agent.make_local_move(self.Board)
             
             spot.make_move(x, y, 'X' if self.Board.player else 'O')
-
+            print()
+            print("Local Move perfomed by Player {} is : {}, {}".format(1 if self.Board.player else 0, x, y))
             self.Board.resolve_ttt_boards()
             self.Board.set_global_coord(x, y)
 
@@ -112,5 +114,5 @@ class UltimateTicTacToe:
 if __name__ == '__main__':
 
     UTTT = UltimateTicTacToe()
-    randy = Randy()
-    UTTT.pvc(randy)
+    nancy = Nancy()
+    UTTT.pvc(nancy)
